@@ -1,6 +1,6 @@
 import React from "react";
 
-import AdditionalFeature from "./AdditionalFeature";
+import AddedFeature from "./AddedFeature";
 
 const AddedFeatures = (props) => {
   return (
@@ -9,7 +9,7 @@ const AddedFeatures = (props) => {
       {props.car.features.length ? (
         <ol type="1">
           {props.car.features.map((item) => (
-            <AdditionalFeature key={item.id} id={item.id} feature={item} />
+            <AddedFeature key={item.id} id={item.id} feature={item} />
           ))}
         </ol>
       ) : (

@@ -1,4 +1,7 @@
-import { ADD_FEATURE } from "../components/actions/featuresActions";
+import {
+  ADD_FEATURE,
+  REMOVE_FEATURE,
+} from "../components/actions/featuresActions";
 
 const initialState = {
   additionalPrice: 0,
@@ -16,27 +19,37 @@ const initialState = {
     { id: 4, name: "Rear spoiler", price: 250 },
   ],
 };
-
 export const featuresReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_FEATURE:
-      console.log("running features");
       return {
         ...state,
-        car: {
-          ...state.car,
-          price: (state.car.price += action.payload.price),
-          features: [
-            ...state.car.features,
-            ...state.additionalFeatures.filter(
-              (feature) => feature.id === action.payload.id
-            ),
-          ],
-        },
         additionalFeatures: state.additionalFeatures.filter(
           (feature) => feature.id !== action.payload.id
         ),
+        car: {
+          ...state.car,
+          features: [...state.car.features, action.payload],
+        },
+        additionalPrice: state.additionalPrice + action.payload.price,
       };
+
+    case REMOVE_FEATURE:
+      return {
+        ...state,
+        additionalFeatures: [...state.additionalFeatures, action.payload],
+
+        car: {
+          ...state.car,
+          features: [
+            ...state.car.features.filter(
+              (feature) => feature.id !== action.payload.id
+            ),
+          ],
+        },
+        additionalPrice: state.additionalPrice - action.payload.price,
+      };
+
     default:
       return state;
   }
